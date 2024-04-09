@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package protocol;
+
+option go_package = "github.com/uwezukwechibuzor/bitcoin-node-handshake/types";
+
+// Network address
+message NetAddr {
+  uint32 time = 1;
+  uint64 services = 2;
+  IPv4 ip = 3;
+  uint32 port = 4;
+}
+
+// IPv4 address
+message IPv4 {
+    bytes ip = 1; // Store as a byte array
+}

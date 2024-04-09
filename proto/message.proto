@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package protocol;
+
+option go_package = "github.com/uwezukwechibuzor/bitcoin-node-handshake/types";
+
+message Message {
+  bytes magic = 1;
+  bytes command = 2;
+  uint32 length = 3;
+  bytes checksum = 4;
+  bytes payload = 5;
+}

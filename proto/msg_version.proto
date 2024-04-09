@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package protocol;
+
+option go_package = "github.com/uwezukwechibuzor/bitcoin-node-handshake/types";
+
+import "proto/net_addr.proto";
+
+message MsgVersion {
+  int32 version = 1;
+  uint64 services = 2;
+  int64 timestamp = 3;
+  NetAddr addr_recv = 4;
+  NetAddr addr_from = 5;
+  uint64 nonce = 6;
+  VarStr user_agent = 7;
+  int32 start_height = 8;
+  bool relay = 9;
+}
+
+message VarStr {
+  uint32 length = 1;
+  string str = 2;
+}
