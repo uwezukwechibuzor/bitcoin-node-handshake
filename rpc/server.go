@@ -5,21 +5,17 @@ import (
 	"net"
 	"net/rpc"
 	"net/rpc/jsonrpc"
-	"os"
-	"os/signal"
-	"syscall"
 
-	"go.uber.org/zap"
+	"github.com/sirupsen/logrus"
 )
 
-// Server represents a JSON-RPC server.
+// Server is a JSON-RPC server.
 type Server struct {
-	Port   int
-	RPC    *rpc.Server
-	logger *zap.Logger
+	port int
+	rpc  *rpc.Server
 }
 
-// NewServer creates a new JSON-RPC server.
+// NewServer returns a new Server.
 func NewServer(port int, node Node) (*Server, error) {
 	rpcs := rpc.NewServer()
 
@@ -28,55 +24,29 @@ func NewServer(port int, node Node) (*Server, error) {
 		return nil, err
 	}
 
-	// Initialize Zap logger
-	logger, err := zap.NewProduction()
-	if err != nil {
-		return nil, err
-	}
-
 	s := Server{
-		Port:   port,
-		RPC:    rpcs,
-		logger: logger,
+		port: port,
+		rpc:  rpcs,
 	}
 
 	return &s, nil
 }
 
-// Run starts the JSON-RPC server.
-func (s *Server) Run() {
-	// Initialize signal handler for graceful shutdown
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
-
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", s.Port))
+// Run runs the Server.
+func (s Server) Run() {
+	l, err := net.Listen("tcp", fmt.Sprintf(":%d", s.port))
 	if err != nil {
-		s.logger.Error("failed to start JSON-RPC server", zap.Error(err))
+		logrus.Errorf("failed to run JSON-RPC server: %+v", err)
 		return
 	}
 
-	s.logger.Info("JSON-RPC server started successfully", zap.Int("port", s.Port))
-	defer func() {
-		_ = listener.Close()
-		s.logger.Sync()
-	}()
-
-	// Handle graceful shutdown
-	go func() {
-		<-sig
-		s.logger.Info("Received interrupt signal. Shutting down...")
-		_ = listener.Close()
-		os.Exit(0)
-	}()
-
 	for {
-		conn, err := listener.Accept()
+		conn, err := l.Accept()
 		if err != nil {
-			s.logger.Error("JSON-RPC connection failed", zap.Error(err))
-			// Continue listening for new connections
-			continue
+			logrus.Errorf("JSON-RPC connection failed: %+v", err)
+			return
 		}
 
-		go s.RPC.ServeCodec(jsonrpc.NewServerCodec(conn))
+		go s.rpc.ServeCodec(jsonrpc.NewServerCodec(conn))
 	}
 }
