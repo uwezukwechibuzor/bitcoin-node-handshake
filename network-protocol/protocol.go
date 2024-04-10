@@ -1,7 +1,7 @@
 package networkprotocol
 
 const (
-	// Version 
+	// Version
 	Version = 70015
 
 	// SrvNodeNetwork This node can be asked for full blocks instead of just headers.

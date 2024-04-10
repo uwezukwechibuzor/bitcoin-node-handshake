@@ -16,26 +16,36 @@ func TestParseNodeAddr(t *testing.T) {
 		err      error
 		expected *node.Addr
 	}{
-		{name: "ok",
+		{
+			name:     "ok",
 			input:    "127.0.0.1:8333",
 			err:      nil,
-			expected: &node.Addr{IP: networkprotocol.NewIPv4(127, 0, 0, 1), Port: 8333}},
-		{name: "empty input",
+			expected: &node.Addr{IP: networkprotocol.NewIPv4(127, 0, 0, 1), Port: 8333},
+		},
+		{
+			name:     "empty input",
 			input:    "",
 			err:      errors.New("malformed node address"),
-			expected: nil},
-		{name: "missing port",
+			expected: nil,
+		},
+		{
+			name:     "missing port",
 			input:    "127.0.0.1",
 			err:      errors.New("malformed node address"),
-			expected: nil},
-		{name: "missing ip",
+			expected: nil,
+		},
+		{
+			name:     "missing ip",
 			input:    ":1234",
 			err:      errors.New("malformed node address"),
-			expected: nil},
-		{name: "invalid ip",
+			expected: nil,
+		},
+		{
+			name:     "invalid ip",
 			input:    "300.300.300.300:1234",
 			err:      nil,
-			expected: &node.Addr{IP: networkprotocol.NewIPv4(0, 0, 0, 0), Port: 1234}},
+			expected: &node.Addr{IP: networkprotocol.NewIPv4(0, 0, 0, 0), Port: 1234},
+		},
 	}
 
 	for _, test := range tests {

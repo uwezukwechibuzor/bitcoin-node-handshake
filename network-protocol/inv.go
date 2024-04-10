@@ -26,4 +26,3 @@ func (inv *MsgInv) UnmarshalBinary(r io.Reader) error {
 
 	return nil
 }
-

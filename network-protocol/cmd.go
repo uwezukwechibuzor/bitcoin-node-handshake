@@ -33,7 +33,7 @@ func newCommand(command string) [commandLength]byte {
 
 	var packed [commandLength]byte
 	buf := make([]byte, commandLength-l)
-	copy(packed[:], append([]byte(command), buf...)[:])
+	copy(packed[:], append([]byte(command), buf...))
 
 	return packed
 }

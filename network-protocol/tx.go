@@ -194,7 +194,7 @@ func (tx MsgTx) Verify() error {
 
 // MarshalBinary implements binary.Marshaler interface.
 func (txw TxWitnessData) MarshalBinary() ([]byte, error) {
-	var buf = bytes.NewBuffer([]byte{})
+	buf := bytes.NewBuffer([]byte{})
 
 	b, err := binary.Marshal(txw.Count)
 	if err != nil {
@@ -242,7 +242,7 @@ func (txw *TxWitnessData) UnmarshalBinary(r io.Reader) error {
 
 // MarshalBinary implements binary.Marshaler interface.
 func (txw *TxWitness) MarshalBinary() ([]byte, error) {
-	var buf = bytes.NewBuffer([]byte{})
+	buf := bytes.NewBuffer([]byte{})
 
 	b, err := binary.Marshal(txw.Length)
 	if err != nil {

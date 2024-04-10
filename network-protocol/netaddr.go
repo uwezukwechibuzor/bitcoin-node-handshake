@@ -16,7 +16,7 @@ type VersionNetAddr struct {
 	Port     uint16
 }
 
-// NewIPv4 
+// NewIPv4
 func NewIPv4(a, b, c, d uint8) IPv4 {
 	return IPv4{a, b, c, d}
 }

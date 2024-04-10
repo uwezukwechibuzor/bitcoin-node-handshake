@@ -47,7 +47,6 @@ var btchandshakeCmd = &cobra.Command{
 
 // Execute
 func Execute() {
-
 	if err := btchandshakeCmd.Execute(); err != nil {
 		logrus.Fatalln(err)
 		os.Exit(1)
