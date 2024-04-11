@@ -59,11 +59,29 @@ We need to send two messages to perform the handshake:
 Version Message
 
 Verack Message - The verack message is sent in reply to version. This message consists of only a message header with the command string "verack".
+Once we've prepared our messages, sending them to the connected node and receiving messages from them becomes straightforward.
 
+To "send" messages, we write bytes to our TCP socket connection.
+To "receive" messages, we read bytes from the same socket.
 
+Once the "verack" message exchange is complete, indicating the conclusion of the handshake, the node will begin sending additional message types. To continue receiving these messages, we simply need to maintain a loop that reads from the socket.
 
+Here's what the incoming messages will resemble:
 
+![bitcoin7](https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/82270365-0604-4855-9811-3cd88b72ed52)
 
+When interacting with a node, it won't indiscriminately send all newly received transactions and blocks. Instead, to conserve bandwidth, it will transmit a list of hashes of the latest transactions and blocks via "inv" (inventory) messages.
+
+In response to these "inv" messages, you can specify the specific transactions and blocks you desire using "getdata" messages.
+Then, after you've sent your "getdata" message, the node will send you the full transactions and blocks you've requested in subsequent "tx" and "block" messages:
+
+![bitcoin8](https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/059df7c6-2075-4b30-86f3-17f0fe24a2af)
+
+<img width="1218" alt="Screenshot 2024-04-11 at 08 03 06" src="https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/b736bf4e-7896-46f2-8d45-6d8755a9d963">
+
+<img width="1218" alt="Screenshot 2024-04-11 at 08 05 15" src="https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/89356553-e2ea-4fcb-b3cd-8a2dd06cf525">
+
+<img width="1218" alt="Screenshot 2024-04-11 at 08 04 30" src="https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/4b067582-fe77-407d-973e-612dfc4576b4">
 
 
 
