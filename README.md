@@ -1,6 +1,75 @@
 # BTCHANDSHAKE
+**BTCHANDSHAKE** is a network handshake implementation using a publicly available [bitcoin node - btcd](https://github.com/btcsuite/btcd).
 
-Local Bitcoin Network
+# TODO - Docker
+
+### [docker](https://www.docker.com/)
+
+Docker is used to help make release and static builds locally.
+
+
+- [Golang](https://go.dev/dl/): you can download it from the linked page or:
+  - Linux: Use your distribution's package manager.
+  - Mac: Use `macports` or `brew`.
+- Ensure that `$GOPATH` and `$PATH` have been set properly. On a Mac that uses the Z shell, you may have to run the following:
+
+```zsh
+mkdir -p $HOME/go/bin
+echo "export GOPATH=$HOME/go" >> ~/.zprofile
+echo "export PATH=\$PATH:\$GOPATH/bin" >> ~/.zprofile
+echo "export GO111MODULE=on" >> ~/.zprofile
+source ~/.zprofile
+```
+
+### [make](https://www.gnu.org/software/make/)
+
+We use GNU Make to help us built, lint, fmt, and etc for this project.
+
+- Linux:
+  - Your distro likely already comes with this. You can check by running `which make`.
+  - Otherwise please see your distro specific installation tool(i.e `apt`) and use that to install it.
+- Macos:
+  - You can check if it's already installed by `which make`.
+  - Otherwise use [brew](https://brew.sh/) or [macports](https://www.macports.org/) to install it.
+
+## Building using Make
+
+To build, run:
+
+```bash
+make build
+```
+
+To install (builds and moves the executable to `$GOPATH/bin`, which should be in `$PATH`), run:
+
+```bash
+make install
+```
+
+## Linting & Formatting
+
+Run format and run linter for go sided:
+
+```bash
+make lint
+```
+
+## Unit Testing
+
+To run all unit tests:
+
+```bash
+make test
+```
+
+To see test coverage:
+
+```bash
+make test-cover
+```
+
+
+# Local Bitcoin Network
 
 Bitcoin is a freely available computer program that operates on an open port on your computer, enabling anyone to connect to it and communicate over the Internet.
 During development, we'll opt for a local network instead of the main Bitcoin network. For this purpose, I used [btcd](https://github.com/btcsuite/btcd), an alternative Bitcoin full node implementation written in Golang.
@@ -84,11 +153,15 @@ Then, after you've sent your "getdata" message, the node will send you the full 
 <img width="1218" alt="Screenshot 2024-04-11 at 08 04 30" src="https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/4b067582-fe77-407d-973e-612dfc4576b4">
 
 
+### Stay Connected
+
+To maintain the connection, the node you've established a connection with will intermittently send "ping" messages to verify your presence. To ensure the connection remains active, you must promptly respond with "pong" messages.
 
 
+![bitcoin9](https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/9b43c159-99cc-4443-b07f-677dee74fe36)
 
 
-
+<img width="1218" alt="Screenshot 2024-04-11 at 08 10 39" src="https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/0adcf1ad-0b73-4cb2-bad4-ddb445a5722c">
 
 
 
