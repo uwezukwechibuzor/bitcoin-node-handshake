@@ -1,12 +1,8 @@
 # BTCHANDSHAKE
 **BTCHANDSHAKE** is a network handshake implementation using a publicly available [bitcoin node - btcd](https://github.com/btcsuite/btcd).
 
-# TODO - Docker
-
-### [docker](https://www.docker.com/)
-
-Docker is used to help make release and static builds locally.
-
+## Prerequisites
+Before proceeding with the installation, ensure that you have the following prerequisites installed:
 
 - [Golang](https://go.dev/dl/): you can download it from the linked page or:
   - Linux: Use your distribution's package manager.
@@ -67,6 +63,90 @@ To see test coverage:
 ```bash
 make test-cover
 ```
+
+## TODO - Docker
+
+### [docker](https://www.docker.com/)
+
+Docker is used to help make release and static builds locally.
+
+# btcd & btcwallet Installation Guide
+
+Installation Steps
+
+1. Clone btcd and btcwallet repositories
+   
+First, clone the btcd and btcwallet repositories from GitHub:
+
+
+```
+git clone https://github.com/btcsuite/btcd.git
+git clone https://github.com/btcsuite/btcwallet.git
+```
+
+2. Build btcd
+Navigate to the btcd directory and build the btcd executable:
+
+```
+cd btcd
+go install . ./cmd/...
+```
+
+3. Build btcwallet
+Navigate to the btcwallet directory and build the btcwallet executable:
+
+```
+cd ../btcwallet
+go install . ./cmd/...
+```
+
+Setting up wallets
+
+We’ll need two wallets: one for the miner and one for the user
+
+Before running btcwallet we must create a default wallet
+```
+btcwallet -C ./btcwallet.conf --create
+```
+Start btcd server
+
+```
+btcd --configfile ./btcd.conf
+```
+Start btcwallet server on another terminal
+
+```
+ btcwallet -C ./btcwallet.conf
+```
+
+Generate two address for the miner and the user
+```
+btcctl -C ./btcctl-wallet.conf getnewaddress
+```
+
+Next step is to setup miner’s address. Stop btcd and start:
+
+```
+ btcd --configfile ./btcd.conf --miningaddr=MINER_ADDRESS
+```
+
+Send a Transaction using wallet and check logs on btcd and btchandshake node terminal
+```
+btcctl -C ./btcctl.conf generate 100
+```
+
+## screenshot sample
+
+![Screenshot 2024-04-11 at 08 53 02](https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/284f1e4f-06a2-405c-a691-522fbdfc572c)
+
+<img width="755" alt="Screenshot 2024-04-11 at 05 01 39" src="https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/aaeaf8c9-f120-4935-8a84-ed5c97fbfcf6">
+
+<img width="610" alt="Screenshot 2024-04-11 at 05 00 57" src="https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/6f7f477a-52b8-48fa-928c-b6592bc0ce09">
+
+<img width="731" alt="Screenshot 2024-04-11 at 05 00 30" src="https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/7f40c27c-fe7d-44df-a667-f128029666cf">
+
+
+
 
 
 # Local Bitcoin Network
