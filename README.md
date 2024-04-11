@@ -17,6 +17,11 @@ echo "export GO111MODULE=on" >> ~/.zprofile
 source ~/.zprofile
 ```
 
+Clone the Repository
+```
+git clone https://github.com/uwezukwechibuzor/bitcoin-node-handshake.git
+```
+
 ### [make](https://www.gnu.org/software/make/)
 
 We use GNU Make to help us built, lint, fmt, and etc for this project.
@@ -117,6 +122,14 @@ Start btcwallet server on another terminal
 
 ```
  btcwallet -C ./btcwallet.conf
+```
+
+Start btchandshake Node on another terminal
+
+![Screenshot 2024-04-11 at 09 02 29](https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/227d3122-b7e4-475b-a6d8-85811d08ec7f)
+
+```
+btchandshake
 ```
 
 Generate two address for the miner and the user
