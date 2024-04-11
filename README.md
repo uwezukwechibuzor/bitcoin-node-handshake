@@ -13,7 +13,12 @@ When you run Bitcoin, it utilizes a specific port, 8333 by default, to establish
 ![bitcoin2](https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/1bb70916-c061-4724-8292-8b6189334604)
 ![bitcoin3](https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/124a8579-29b5-44a6-9143-f159ca5abc92)
 
-## Messages
+
+
+## [BITCOIN PROTOCOL DOCUMENTATION](https://en.bitcoin.it/wiki/Protocol_documentation)
+
+Messages
+
 A "message" is just a structured piece of data that Bitcoin nodes send each other over the network. They all have the same format:
 
 ![bitcoin4](https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/b32958af-5540-417d-aed2-690a96b20dbb)
@@ -25,15 +30,48 @@ The “version” message provides information about the transmitting node to th
 
 Header 
 The header contains a summary of the message, and its structure is the same for every message in the Bitcoin protocol.
-<img width="1012" alt="Screenshot 2024-04-11 at 05 29 51" src="https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/3c09e965-e77a-41b0-b19f-cda9adf0fbbe">
 
-Magic Bytes: Serve as unique markers at the beginning of a message, aiding in identifying message boundaries within a byte stream.
+<img width="1012" alt="Screenshot 2024-04-11 at 05 35 22" src="https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/1d5527e5-8a17-4ad6-b18d-c710c3409336">
 
-Command: Specifies the type of message being transmitted, encoded in ASCII characters within a 12-byte field.
+Payload 
 
-Size: Indicates the size of the upcoming payload, specifying the number of bytes needed to read to obtain the complete message.
+The payload contains the main content of the message. Different message types have different structures for their payloads.
+When a node creates an outgoing connection, it will immediately advertise its version. The remote node will respond with its version. No further communication is possible until both peers have exchanged their version.
 
-Checksum: Provides a compact fingerprint for payload integrity verification, computed through double-hashing and extracting the first 4 bytes of the result.
+<img width="1218" alt="Screenshot 2024-04-11 at 05 41 31" src="https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/5af94433-407f-4e72-a80e-b5b373e77901">
 
-    
+Handshaking is the initial process that establishes communication between two networking devices. Before data exchange can begin, a "handshake" is necessary. This handshake involves exchanging a sequence of messages to initiate communication.
+
+In the Bitcoin protocol, the handshake follows this sequence:
+
+![bitcoin6](https://github.com/uwezukwechibuzor/bitcoin-node-handshake/assets/66339097/46268645-523d-49e4-9796-cacf864ec05e)
+
+The handshake process entails two steps:
+
+We kick off the communication by sending our "version" message, to which they respond with their own "version" message.
+Subsequently, they acknowledge receipt of our version message by sending a "verack" message, and we conclude the handshake by reciprocating with a "verack" message back to them.
+
+
+Message preparation 
+
+We need to send two messages to perform the handshake:
+
+Version Message
+
+Verack Message - The verack message is sent in reply to version. This message consists of only a message header with the command string "verack".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
